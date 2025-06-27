@@ -1,9 +1,13 @@
 import { test as setup, expect } from '@playwright/test';
 import { STORAGE_STATE } from '../playwright.config';
-import { assert } from 'console';
 
-assert(process.env.USERNAME1, 'USERNAME1 is not set');
-assert(process.env.PASSWORD, 'PASSWORD is not set');
+// Check if environment variables are set
+if (!process.env.USERNAME1) {
+  throw new Error('USERNAME1 environment variable is not set. Please set it in your repository secrets as PLAYWRIGHT_USERNAME.');
+}
+if (!process.env.PASSWORD) {
+  throw new Error('PASSWORD environment variable is not set. Please set it in your repository secrets as PLAYWRIGHT_PASSWORD.');
+}
 
 setup('Login', async ({ page }) => {
   await page.goto('/');

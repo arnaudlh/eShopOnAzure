@@ -26,6 +26,19 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+    
+    /* Take screenshot on failure */
+    screenshot: 'only-on-failure',
+    
+    /* Capture video on failure */
+    video: 'retain-on-failure',
+    
+    /* Action timeout for individual actions */
+    actionTimeout: 30000,
+    
+    /* Navigation timeout */
+    navigationTimeout: 30000,
+    
     ...devices['Desktop Chrome'],
   },
 
@@ -90,6 +103,10 @@ export default defineConfig({
     reuseExistingServer: !process.env.CI,
     stderr: 'pipe',
     stdout: 'pipe',
-    timeout: process.env.CI ? (5 * 60_000) : 60_000,
+    timeout: process.env.CI ? (10 * 60_000) : 60_000, // Increased timeout for CI
+    env: {
+      ASPNETCORE_ENVIRONMENT: 'Development',
+      ASPNETCORE_URLS: 'http://localhost:5045'
+    }
   },
 });
